@@ -14,4 +14,23 @@ router.get("/", function(req, res, next) {
     });
 });
 
-module.exports = router; 
+router.get("/:id", function(req, res, next) {
+  Game.findAll({
+    where:{
+      id: req.params.id
+    }
+  })
+    .then(game => {
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).send(JSON.stringify(games));
+    })
+    .catch(error => {
+      res.setHeader("Content-Type", "application/json");
+      res.status(500).send({error})
+    });
+});
+
+
+
+
+module.exports = router;
