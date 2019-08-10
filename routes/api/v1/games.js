@@ -67,7 +67,22 @@ router.put("/:id", function(req, res, next) {
     });
 });
 
-
+//until I added send(JSON.stringify()) it would delete the game but give me an error?  send({ deleted }) did same
+router.delete("/:id", function (req, res, next) {
+  Game.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(game => {
+      res.setHeader("Content-Type", "application/json");
+      res.status(204).send(JSON.stringify());
+    })
+    .catch(error => {
+      res.setHeader("Content-Type", "application/json");
+      res.status(500).send({ error });
+    });
+});
 
 
 module.exports = router;
